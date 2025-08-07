@@ -4,14 +4,17 @@ import styles from "./CreateTemplatePage.module.scss";
 import { useEffect, useState } from "react";
 import { useContextDispatch } from "../../contextStore";
 import { ContextActionHandlers } from "../../contextStore/actions";
+import { useNavigate } from "react-router-dom";
 
 const CreateTemplatePage = () => {
   const [file, setFile] = useState(null);
   const dispatch = useContextDispatch();
+  const navigate = useNavigate();
   useEffect(() => {
     if (!file) return;
-    // API call to upload the file and extract design rules
+    // API call to upload the file and extract design rules and dispatch the response
     // dispatch(ContextActionHandlers.setTemplateJSON(response));
+    // navigate("/template-editor");
   }, [file]);
   return (
     <div className={styles.createTemplatePage}>
