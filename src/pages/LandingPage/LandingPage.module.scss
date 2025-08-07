@@ -1,0 +1,32 @@
+.landingPage {
+  padding: 5%;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  .welcomeContainer {
+    background-image: linear-gradient(
+      135deg,
+      rgb(102, 126, 234) 0%,
+      rgb(118, 75, 162) 100%
+    );
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    .title {
+      font-size: 2.5rem;
+    }
+    .description {
+      font-size: 1.5rem;
+    }
+  }
+  .mainNav {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+}
