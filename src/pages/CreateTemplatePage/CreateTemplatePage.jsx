@@ -2,11 +2,16 @@ import { GrUpload } from "react-icons/gr";
 import PDFUploader from "../../components/PDFUploader/PDFUploader";
 import styles from "./CreateTemplatePage.module.scss";
 import { useEffect, useState } from "react";
+import { useContextDispatch } from "../../contextStore";
+import { ContextActionHandlers } from "../../contextStore/actions";
 
 const CreateTemplatePage = () => {
   const [file, setFile] = useState(null);
+  const dispatch = useContextDispatch();
   useEffect(() => {
     if (!file) return;
+    // API call to upload the file and extract design rules
+    // dispatch(ContextActionHandlers.setTemplateJSON(response));
   }, [file]);
   return (
     <div className={styles.createTemplatePage}>

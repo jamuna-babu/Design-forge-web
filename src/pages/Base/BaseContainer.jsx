@@ -3,6 +3,7 @@ import SideBar from "../../components/SideBar/SideBar";
 import RouteSwitch from "../RouteSwitch/RouteSwitch";
 // import { AiOutlineBars } from "react-icons/ai";
 import styles from "./Base.module.scss";
+import { useContextStore } from "../../contextStore";
 
 const BaseContainer = () => {
   // const [sideBarOpen, setSidebarOpen] = useState(false);
@@ -22,4 +23,4 @@ const BaseContainer = () => {
   );
 };
 
-export default BaseContainer;
+export default useContextStore(BaseContainer);
