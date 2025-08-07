@@ -1,6 +1,5 @@
-import React from "react";
 import styles from "./SideBar.module.scss";
-import { SIDE_BAR_OPTIONS } from "../../constants/sideBarConstants";
+import { SIDE_BAR_OPTIONS } from "./sideBarConstants";
 import { useNavigate } from "react-router-dom";
 
 const SideBar = () => {

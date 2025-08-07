@@ -9,6 +9,7 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "antd": "^5.26.7",
     "fabric": "^5.5.2",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
