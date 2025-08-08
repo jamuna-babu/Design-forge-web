@@ -2,12 +2,15 @@ import { GrUpload } from "react-icons/gr";
 import PDFUploader from "../../components/PDFUploader/PDFUploader";
 import styles from "./CreateTemplatePage.module.scss";
 import { useEffect, useState } from "react";
-import { useContextDispatch } from "../../contextStore";
+import { useContextData, useContextDispatch } from "../../contextStore";
 import { ContextActionHandlers } from "../../contextStore/actions";
 import { useNavigate } from "react-router-dom";
+import { LuEye } from "react-icons/lu";
+import JSONPreview from "../../components/JSONPreview/JSONPreview";
 
 const CreateTemplatePage = () => {
   const [file, setFile] = useState(null);
+  const { templateJSON } = useContextData();
   const dispatch = useContextDispatch();
   const navigate = useNavigate();
   useEffect(() => {
@@ -25,15 +28,24 @@ const CreateTemplatePage = () => {
           templates
         </div>
       </div>
-      <div className={styles.uploadPdfContainer}>
-        <div className={styles.header}>
-          <span className={styles.headerIcon}>
-            <GrUpload />
-          </span>
-          <span className={styles.headerText}>Upload PDF Guidelines</span>
+      <div className={styles.contentSection}>
+        <div className={styles.uploadPdfContainer}>
+          <div className={styles.header}>
+            <span className={styles.headerIcon}>
+              <GrUpload />
+            </span>
+            <span className={styles.headerText}>Upload PDF Guidelines</span>
+          </div>
+          <div className={styles.pdfUploaderWrapper}>
+            <PDFUploader maxSize={10} onUpload={(file) => setFile(file)} />
+          </div>
         </div>
-        <div className={styles.pdfUploaderWrapper}>
-          <PDFUploader maxSize={10} onUpload={(file) => setFile(file)} />
+        <div className={styles.jsonPreviewContainer}>
+          <div className={styles.header}>
+            <LuEye />
+            <span>JSON Preview</span>
+          </div>
+          <JSONPreview templateJSON={templateJSON} />
         </div>
       </div>
     </div>
