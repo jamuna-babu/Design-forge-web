@@ -1,5 +1,5 @@
 import React from "react";
-import TemplateCanvas from "./components/TemplateCanvas";
+import TemplateCanvas from "./components/TemplateEditor/TemplateCanvas";
 import { BrowserRouter } from "react-router-dom";
 import RouteSwitch from "./pages/RouteSwitch/RouteSwitch";
 import BaseContainer from "./pages/Base/BaseContainer";

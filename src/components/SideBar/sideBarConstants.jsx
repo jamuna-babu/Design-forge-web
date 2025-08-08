@@ -22,12 +22,12 @@ export const SIDE_BAR_OPTIONS = [
     label: "Create Template",
     icon: <IoDocumentTextOutline />,
   },
-  // {
-  //   value: "template-editor",
-  //   route: "/template-editor",
-  //   label: "Template Editor",
-  //   icon: <AiOutlineEdit />,
-  // },
+  {
+    value: "template-editor",
+    route: "/template-editor",
+    label: "Template Editor",
+    icon: <AiOutlineEdit />,
+  },
   {
     value: "saved-templates",
     route: "/saved-templates",

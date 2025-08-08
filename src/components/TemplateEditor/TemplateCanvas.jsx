@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { fabric } from "fabric";
+import styles from "../../pages/TemplateEditorPage/TemplateEditorPage.module.scss";
 
-function TemplateCanvas() {
+function TemplateCanvas({ onSelectText }) {
   const canvasRef = useRef(null);
   const fabricCanvas = useRef(null);
   const [layout, setLayout] = useState(null);
@@ -21,15 +22,15 @@ function TemplateCanvas() {
             font_size: 16,
             alignment: "Bottom&Left",
             text: "subtitle",
-            positions: { x: 16, y: 726 },
+            positions: { x: 16, y: 625 },
           },
           title: {
             font_family: "Free sans",
             font_style: "Bold",
             font_size: 44,
             alignment: "Bottom&Left",
-            text: "title",
-            positions: { x: 16, y: 710 },
+            text: "title\ntitle",
+            positions: { x: 16, y: 651 },
           },
           description: {
             font_family: "Roboto",
@@ -75,9 +76,8 @@ function TemplateCanvas() {
 
     // ✅ Add text styles from widget
     const styles = layout.widget?.text_styles || {};
-
+    const textboxes = [];
     Object.entries(styles).forEach(([key, style]) => {
-      console.log("hereeeeeee");
       const textbox = new fabric.Textbox(style.text || "", {
         left: style.positions?.x || 0,
         top: style.positions?.y || 0,
@@ -89,10 +89,64 @@ function TemplateCanvas() {
         fill: "#00000",
         width: 300,
       });
-      console.log(textbox, "texbox");
-
       canvas.add(textbox);
-      console.log(canvas, "canvas after");
+      textboxes.push(textbox);
+    });
+    canvas.on("selection:created", (e) => {
+      const obj = e.selected[0];
+      if (obj?.type === "textbox") {
+        const props = {
+          id: obj.customId,
+          text: obj.text,
+          fontSize: obj.fontSize,
+          fontFamily: obj.fontFamily,
+          fontWeight: obj.fontWeight,
+          fill: obj.fill,
+        };
+        onSelectText && onSelectText(props);
+      }
+    });
+    canvas.on("selection:updated", (e) => {
+      const obj = e.selected[0];
+      if (obj?.type === "textbox") {
+        const props = {
+          id: obj.customId,
+          text: obj.text,
+          fontSize: obj.fontSize,
+          fontFamily: obj.fontFamily,
+          fontWeight: obj.fontWeight,
+          fill: obj.fill,
+        };
+        onSelectText && onSelectText(props);
+      }
+    });
+
+    textboxes.forEach((textbox, index) => {
+      let prevHeight = textbox.height;
+
+      textbox.on("changed", () => {
+        console.log("edit", textbox);
+        textbox.initDimensions();
+        const newHeight = textbox.height;
+
+        if (newHeight !== prevHeight) {
+          // const delta = newHeight - prevHeight;
+
+          for (let i = index + 1; i < textboxes.length; i++) {
+            const nextBox = textboxes[i];
+            const prevBox = textboxes[i - 1];
+            const spacing = 8;
+
+            const expectedTop = prevBox.top + prevBox.height + spacing;
+            nextBox.top = expectedTop;
+            nextBox.setCoords();
+          }
+
+          prevHeight = newHeight;
+
+          fabricCanvas.current.renderAll();
+        }
+      });
     });
     canvas.renderAll();
 
@@ -128,10 +182,11 @@ function TemplateCanvas() {
   };
 
   return (
-    <div style={{ textAlign: "center", padding: "20px" }}>
-      <h2>Editable Template Canvas</h2>
-      <canvas ref={canvasRef} style={{ border: "1px solid #ccc" }} />
-      <div style={{ marginTop: "10px" }}>
+    <div className={styles.imageContainer}>
+      <div className={styles.scrollContainer}>
+        <canvas ref={canvasRef} style={{ border: "1px solid #ccc" }} />
+      </div>
+      <div className={styles.templateButton}>
         <button onClick={saveCanvasImage} style={{ marginRight: "10px" }}>
           Save as Image
         </button>
