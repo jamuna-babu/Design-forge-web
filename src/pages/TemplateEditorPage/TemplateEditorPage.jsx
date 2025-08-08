@@ -2,6 +2,7 @@ import { useState } from "react";
 import TemplateCanvas from "../../components/TemplateEditor/TemplateCanvas";
 import TemplateStyleEditor from "../../components/TemplateEditor/TemplateStyleEditor";
 import styles from "./TemplateEditorPage.module.scss";
+import { AiOutlineEdit } from "react-icons/ai";
 
 const TemplateEditorPage = () => {
   const [selectedTextProps, setSelectedTextProps] = useState(null);

@@ -1,4 +1,5 @@
 import styles from "../../pages/TemplateEditorPage/TemplateEditorPage.module.scss";
+import { FaAlignCenter, FaAlignLeft, FaAlignRight } from "react-icons/fa";
 
 const TemplateStyleEditor = ({ selectedTextProps }) => {
   const colorPalette = [
@@ -62,7 +63,7 @@ const TemplateStyleEditor = ({ selectedTextProps }) => {
           }
           disabled
         >
-          L
+          <FaAlignLeft />
         </button>
         <button
           className={
@@ -70,7 +71,7 @@ const TemplateStyleEditor = ({ selectedTextProps }) => {
           }
           disabled
         >
-          C
+          <FaAlignCenter />
         </button>
         <button
           className={
@@ -78,7 +79,7 @@ const TemplateStyleEditor = ({ selectedTextProps }) => {
           }
           disabled
         >
-          R
+          <FaAlignRight />
         </button>
       </div>
 
