@@ -3,6 +3,7 @@ import LandingPage from "../LandingPage/LandingPage";
 import GenerateImage from "../GenerateImage/GenerateImage";
 import CreateTemplatePage from "../CreateTemplatePage/CreateTemplatePage";
 import TemplateEditorPage from "../TemplateEditorPage/TemplateEditorPage";
+import SavedTemplate from "../SavedTemplate/SavedTemplate";
 
 function RouteSwitch() {
   return (
@@ -11,6 +12,7 @@ function RouteSwitch() {
       <Route path="/generate-image" element={<GenerateImage />} />
       <Route path="/create-template" element={<CreateTemplatePage />} />
       <Route path="/template-editor" element={<TemplateEditorPage />} />
+      <Route path="/saved-templates" element={<SavedTemplate />} />
     </Routes>
   );
 }

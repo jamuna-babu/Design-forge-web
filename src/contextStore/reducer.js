@@ -8,6 +8,11 @@ export const reducer = (state, action) => {
         ...state,
         templateJSON: payload,
       };
+    case CONTEXT_ACTIONS.SET_ALL_LAYOUTS:
+      return {
+        ...state,
+        allLayouts: payload,
+      };
     case CONTEXT_ACTIONS.SET_BASE64_IMAGE:
       return {
         ...state,

@@ -5,9 +5,23 @@ import { CiImageOn } from "react-icons/ci";
 import { GrUpload } from "react-icons/gr";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import allLayOutJSON from "./LayoutMock.json";
+import { useContextData, useContextDispatch } from "../../contextStore";
+import { ContextActionHandlers } from "../../contextStore/actions";
 
 const LandingPage = () => {
   const navigate = useNavigate();
+
+  const dispatch = useContextDispatch();
+  const { allLayouts } = useContextData();
+
+  useEffect(() => {
+    if (Object.entries(allLayouts)?.length === 0) {
+      console.log(allLayouts);
+      dispatch(ContextActionHandlers.setAllLayouts(allLayOutJSON));
+    }
+  }, []);
   return (
     <div className={styles.landingPage}>
       <div className={styles.welcomeContainer}>

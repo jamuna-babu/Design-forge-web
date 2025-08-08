@@ -1,0 +1,181 @@
+
+{ 
+    "banner":{
+        "mobile":{
+            "text_styles": {
+                "description": {
+                    "alignment": "Top&Left",
+                    "font_family": "Roboto",
+                    "font_size": 18,
+                    "font_style": "Regular",
+                    "max_lines": 3,
+                    "min_lines": 0,
+                    "positions": {
+                    "x": "619",
+                    "y": "974"
+                    },
+                    "text": "description"
+                },
+                "subtitle": {
+                    "alignment": "Bottom&Left",
+                    "font_family": "Roboto",
+                    "font_size": 16,
+                    "font_style": "Medium",
+                    "max_lines": 1,
+                    "min_lines": 0,
+                    "positions": {
+                    "x": "619",
+                    "y": "726"
+                    },
+                    "text": "subtitle"
+                },
+                "title": {
+                    "alignment": "Bottom&Left",
+                    "font_family": "Free sans",
+                    "font_size": 44,
+                    "font_style": "Bold",
+                    "max_lines": 3,
+                    "min_lines": 1,
+                    "positions": {
+                    "x": "619",
+                    "y": "32"
+                    },
+                    "text": "title"
+                }
+            }
+        },
+        "desktop":{
+            "text_styles": {
+                "description": {
+                    "alignment": "Top&Left",
+                    "font_family": "Roboto",
+                    "font_size": 18,
+                    "font_style": "Regular",
+                    "max_lines": 3,
+                    "min_lines": 0,
+                    "positions": {
+                    "x": "619",
+                    "y": "974"
+                    },
+                    "text": "description"
+                },
+                "subtitle": {
+                    "alignment": "Bottom&Left",
+                    "font_family": "Roboto",
+                    "font_size": 16,
+                    "font_style": "Medium",
+                    "max_lines": 1,
+                    "min_lines": 0,
+                    "positions": {
+                    "x": "619",
+                    "y": "726"
+                    },
+                    "text": "subtitle"
+                },
+                "title": {
+                    "alignment": "Bottom&Left",
+                    "font_family": "Free sans",
+                    "font_size": 44,
+                    "font_style": "Bold",
+                    "max_lines": 3,
+                    "min_lines": 1,
+                    "positions": {
+                    "x": "619",
+                    "y": "32"
+                    },
+                    "text": "title"
+                }
+            }
+        }
+    },
+    "carousel":{
+        "mobile":{
+            "text_styles": {
+                "description": {
+                    "alignment": "Top&Left",
+                    "font_family": "Roboto",
+                    "font_size": 18,
+                    "font_style": "Regular",
+                    "max_lines": 3,
+                    "min_lines": 0,
+                    "positions": {
+                    "x": "619",
+                    "y": "974"
+                    },
+                    "text": "description"
+                },
+                "subtitle": {
+                    "alignment": "Bottom&Left",
+                    "font_family": "Roboto",
+                    "font_size": 16,
+                    "font_style": "Medium",
+                    "max_lines": 1,
+                    "min_lines": 0,
+                    "positions": {
+                    "x": "619",
+                    "y": "726"
+                    },
+                    "text": "subtitle"
+                },
+                "title": {
+                    "alignment": "Bottom&Left",
+                    "font_family": "Free sans",
+                    "font_size": 44,
+                    "font_style": "Bold",
+                    "max_lines": 3,
+                    "min_lines": 1,
+                    "positions": {
+                    "x": "619",
+                    "y": "32"
+                    },
+                    "text": "title"
+                }
+            }
+        },
+        "desktop":{
+            "text_styles": {
+                "description": {
+                    "alignment": "Top&Left",
+                    "font_family": "Roboto",
+                    "font_size": 18,
+                    "font_style": "Regular",
+                    "max_lines": 3,
+                    "min_lines": 0,
+                    "positions": {
+                    "x": "619",
+                    "y": "974"
+                    },
+                    "text": "description"
+                },
+                "subtitle": {
+                    "alignment": "Bottom&Left",
+                    "font_family": "Roboto",
+                    "font_size": 16,
+                    "font_style": "Medium",
+                    "max_lines": 1,
+                    "min_lines": 0,
+                    "positions": {
+                    "x": "619",
+                    "y": "726"
+                    },
+                    "text": "subtitle"
+                },
+                "title": {
+                    "alignment": "Bottom&Left",
+                    "font_family": "Free sans",
+                    "font_size": 44,
+                    "font_style": "Bold",
+                    "max_lines": 3,
+                    "min_lines": 1,
+                    "positions": {
+                    "x": "619",
+                    "y": "32"
+                    },
+                    "text": "title"
+                }
+            }
+        }
+    }
+}
+
+
