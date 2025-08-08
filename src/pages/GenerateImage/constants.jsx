@@ -1,43 +1,62 @@
-import { LuMonitor } from "react-icons/lu";
-import styles from "./GenerateImage.module.scss";
-import { PiLightningLight } from "react-icons/pi";
-import { CiMobile2 } from "react-icons/ci";
-
-export const DEVICE_WRAPPER_OPTIONS = [
+export const WIDGET_TYPE_OPTIONS = [
   {
-    value: "apple-device-mockup",
-    label: (
-      <span className={styles.dropDownOption}>
-        <CiMobile2 className={styles.dropDownOptionIcon} />
-        <span className={styles.dropDownOptionText}>Apple Device Mockup</span>
-      </span>
-    ),
+    value: "banner",
+    label: "Banner",
   },
   {
-    value: "samsung-device-mockup",
-    label: (
-      <span className={styles.dropDownOption}>
-        <CiMobile2 className={styles.dropDownOptionIcon} />
-        <span className={styles.dropDownOptionText}>Samsung Device Mockup</span>
-      </span>
-    ),
+    value: "carousel",
+    label: "Carousel",
   },
   {
-    value: "generic-device",
-    label: (
-      <span className={styles.dropDownOption}>
-        <LuMonitor className={styles.dropDownOptionIcon} />
-        <span className={styles.dropDownOptionText}>Generic Device</span>
-      </span>
-    ),
-  },
-  {
-    value: "no-device-wrapper",
-    label: (
-      <span className={styles.dropDownOption}>
-        <PiLightningLight className={styles.dropDownOptionIcon} />
-        <span className={styles.dropDownOptionText}>No Device Wrapper</span>
-      </span>
-    ),
+    value: "card",
+    label: "Card",
   },
 ];
+
+export const DEVICE_TYPE_OPTIONS = [
+  {
+    value: "mobile",
+    label: "Mobile",
+  },
+  {
+    value: "desktop",
+    label: "Desktop",
+  },
+];
+
+export const DIMENSION_OPTIONS = {
+  banner: {
+    mobile: {
+      width: 320,
+      height: 96,
+    },
+    desktop: {
+      width: 1024,
+      height: 200,
+    },
+  },
+  carousel: {
+    mobile: {
+      width: 656,
+      height: 974,
+    },
+    desktop: {
+      width: 1200,
+      height: 400,
+    },
+  },
+  card: {
+    mobile: {
+      width: 304,
+      height: 248,
+    },
+    desktop: {
+      width: 400,
+      height: 296,
+    },
+  },
+};
+
+export const getDimensions = (widgetType, deviceType) => {
+  return DIMENSION_OPTIONS?.[widgetType]?.[deviceType] || null;
+};

@@ -1,3 +1,5 @@
 export const initialState = {
-  templateJSON: "",
+  templateJSON: null,
+  base64Image: null,
+  imageOptions: null,
 };

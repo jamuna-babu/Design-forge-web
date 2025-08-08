@@ -8,7 +8,16 @@ export const reducer = (state, action) => {
         ...state,
         templateJSON: payload,
       };
-
+    case CONTEXT_ACTIONS.SET_BASE64_IMAGE:
+      return {
+        ...state,
+        base64Image: payload,
+      };
+    case CONTEXT_ACTIONS.SET_IMAGE_OPTIONS:
+      return {
+        ...state,
+        imageOptions: payload,
+      };
     default:
       return state;
   }

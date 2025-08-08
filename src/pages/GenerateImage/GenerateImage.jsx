@@ -2,21 +2,56 @@ import { LuSparkles, LuWandSparkles } from "react-icons/lu";
 import styles from "./GenerateImage.module.scss";
 import TextEditor from "../../components/TextEditor/TextEditor";
 import { useState } from "react";
-import { DEVICE_WRAPPER_OPTIONS } from "./constants";
 import { Select } from "antd";
+import {
+  DEVICE_TYPE_OPTIONS,
+  getDimensions,
+  sampleImage,
+  WIDGET_TYPE_OPTIONS,
+} from "./constants";
+import { useContextData, useContextDispatch } from "../../contextStore";
+import { ContextActionHandlers } from "../../contextStore/actions";
+import ImagePreview from "../../components/ImagePreview/ImagePreview";
+import { APIService } from "../../services/service";
 
 const GenerateImage = () => {
   const [inputText, setInputText] = useState("");
-  const [deviceWrapper, setDeviceWrapper] = useState(null);
+  const [widgetType, setWidgetType] = useState(null);
+  const [deviceType, setDeviceType] = useState(null);
 
+  const dispatch = useContextDispatch();
+  const { base64Image } = useContextData();
   const handleInputChange = (value) => setInputText(value);
 
-  const onDeviceWrapperChange = (value = "") => {
-    if (value === deviceWrapper) return;
-    setDeviceWrapper(value);
+  const onWidgetTypeChange = (value = "") => {
+    if (value === widgetType) return;
+    setWidgetType(value);
+  };
+  const onDeviceTypeChange = (value = "") => {
+    if (value === deviceType) return;
+    setDeviceType(value);
   };
 
-  const onGenerateClick = () => {};
+  const onGenerateClick = () => {
+    const { width, height } = getDimensions(widgetType, deviceType);
+    APIService.generateImage({
+      prompt: inputText,
+      width,
+      height,
+    }).then((response) => {
+      const { image } = response;
+      dispatch(ContextActionHandlers.setBase64Image(image));
+      dispatch(
+        ContextActionHandlers.setImageOptions({
+          widgetType,
+          deviceType,
+          dimensions: { width, height },
+        })
+      );
+    });
+  };
+
+  const generateDisabled = !widgetType || !inputText || !deviceType;
 
   return (
     <div className={styles.generateImagePage}>
@@ -42,22 +77,37 @@ const GenerateImage = () => {
           label="Describe your image"
           placeholder="e.g., A serene landscape with mountains and a river, a sunset in the background, and a clear blue sky."
         />
-        <div className={styles.deviceWrapperContainer}>
-          <span className={styles.deviceWrapperLabel}>
-            {`Choose Device Wrapper (Optional)`}
-          </span>
+        <div className={styles.dropdownContainer}>
+          <span className={styles.dropdownLabel}>{`Choose Widget Type`}</span>
           <Select
-            placeholder="Select a Device Theme"
-            onChange={onDeviceWrapperChange}
-            value={deviceWrapper}
-            options={DEVICE_WRAPPER_OPTIONS}
+            placeholder="Select a Widget Type"
+            onChange={onWidgetTypeChange}
+            value={widgetType}
+            options={WIDGET_TYPE_OPTIONS}
           />
         </div>
-        <button className={styles.generateButton} onClick={onGenerateClick}>
+        {!!widgetType && (
+          <div className={styles.dropdownContainer}>
+            <span className={styles.dropdownLabel}>{`Choose Device Type`}</span>
+            <Select
+              placeholder="Select a Widget Type"
+              onChange={onDeviceTypeChange}
+              value={deviceType}
+              options={DEVICE_TYPE_OPTIONS}
+            />
+          </div>
+        )}
+        <button
+          className={`${styles.generateButton} ${
+            generateDisabled ? styles.disabledButton : ""
+          }`}
+          onClick={onGenerateClick}
+        >
           <LuSparkles className={styles.generateButtonIcon} />
           <span>Generate Image</span>
         </button>
       </div>
+      {base64Image && <ImagePreview type="png" base64={base64Image} />}
     </div>
   );
 };
