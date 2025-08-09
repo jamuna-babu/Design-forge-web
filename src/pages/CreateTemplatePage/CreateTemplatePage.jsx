@@ -83,7 +83,7 @@ const CreateTemplatePage = () => {
       });
   }, [file]);
   const handleSaveTemplate = () => {
-    APIService.postSaveTemplate(JSON)
+    APIService.postSaveTemplate(templateJSON)
       .then((response) => {
         setLoading(false);
         setIsAlert(true);
