@@ -13,11 +13,13 @@ import { useContextData, useContextDispatch } from "../../contextStore";
 import { ContextActionHandlers } from "../../contextStore/actions";
 import ImagePreview from "../../components/ImagePreview/ImagePreview";
 import { APIService } from "../../services/service";
+import PageLoader from "../../components/Loader/PageLoader";
 
 const GenerateImage = () => {
   const [inputText, setInputText] = useState("");
   const [widgetType, setWidgetType] = useState(null);
   const [deviceType, setDeviceType] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useContextDispatch();
   const { base64Image } = useContextData();
@@ -33,28 +35,35 @@ const GenerateImage = () => {
   };
 
   const onGenerateClick = () => {
+    setLoading(true);
     const { width, height } = getDimensions(widgetType, deviceType);
     APIService.generateImage({
       prompt: inputText,
       width,
       height,
-    }).then((response) => {
-      const { image } = response;
-      dispatch(ContextActionHandlers.setBase64Image(image));
-      dispatch(
-        ContextActionHandlers.setImageOptions({
-          widgetType,
-          deviceType,
-          dimensions: { width, height },
-        })
-      );
-    });
+    })
+      .then((response) => {
+        const { image } = response;
+        dispatch(ContextActionHandlers.setBase64Image(image));
+        dispatch(
+          ContextActionHandlers.setImageOptions({
+            widgetType,
+            deviceType,
+            dimensions: { width, height },
+          })
+        );
+        setLoading(false);
+      })
+      .catch((error) => {
+        setLoading(false);
+      });
   };
 
   const generateDisabled = !widgetType || !inputText || !deviceType;
 
   return (
     <div className={styles.generateImagePage}>
+      {loading && <PageLoader />}
       <div className={styles.titleContainer}>
         <span className={styles.titleIcon}>
           <LuSparkles />

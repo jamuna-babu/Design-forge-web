@@ -1,55 +1,18 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { fabric } from "fabric";
 import styles from "../../pages/TemplateEditorPage/TemplateEditorPage.module.scss";
+import Button from "../Button/Button";
 
-function TemplateCanvas({ onSelectText }) {
+function TemplateCanvas({ onSelectText, layout, imageUrl, width, height }) {
   const canvasRef = useRef(null);
   const fabricCanvas = useRef(null);
-  const [layout, setLayout] = useState(null);
+  const [imgUrl, setImgUrl] = useState(imageUrl || "/Image.jpeg");
 
-  // 1. Load layout data
-  useEffect(() => {
-    // Use real fetch here if needed
-    const mockLayout = {
-      background: "/Image.jpeg", // ✅ should be inside public/
-      elements: [],
-      widget: {
-        name: "Widget 1",
-        text_styles: {
-          subtitle: {
-            font_family: "Roboto",
-            font_style: "Medium",
-            font_size: 16,
-            alignment: "Bottom&Left",
-            text: "subtitle",
-            positions: { x: 16, y: 625 },
-          },
-          title: {
-            font_family: "Free sans",
-            font_style: "Bold",
-            font_size: 44,
-            alignment: "Bottom&Left",
-            text: "title\ntitle",
-            positions: { x: 16, y: 651 },
-          },
-          description: {
-            font_family: "Roboto",
-            font_style: "Regular",
-            font_size: 18,
-            alignment: "Top&Left",
-            text: "description",
-            positions: { x: 16, y: 766 },
-          },
-        },
-      },
-    };
-
-    setLayout(mockLayout);
-  }, []);
-
-  // 2. Initialize canvas
+  // Initialize canvas
   useEffect(() => {
     if (!canvasRef.current || !layout) return;
+
+    let isMounted = true;
 
     const canvas = new fabric.Canvas(canvasRef.current, {
       width: 800,
@@ -60,9 +23,10 @@ function TemplateCanvas({ onSelectText }) {
     fabricCanvas.current = canvas;
 
     // ✅ Set background image
-    const bgUrl = layout.background || "/Image.jpeg";
+    const bgUrl = imgUrl;
 
     fabric.Image.fromURL(bgUrl, (img) => {
+      if (!isMounted) return;
       if (!img) {
         console.error("Failed to load background image:", bgUrl);
         return;
@@ -75,7 +39,7 @@ function TemplateCanvas({ onSelectText }) {
     });
 
     // ✅ Add text styles from widget
-    const styles = layout.widget?.text_styles || {};
+    const styles = layout?.text_styles || {};
     const textboxes = [];
     Object.entries(styles).forEach(([key, style]) => {
       const textbox = new fabric.Textbox(style.text || "", {
@@ -125,7 +89,6 @@ function TemplateCanvas({ onSelectText }) {
       let prevHeight = textbox.height;
 
       textbox.on("changed", () => {
-        console.log("edit", textbox);
         textbox.initDimensions();
         const newHeight = textbox.height;
 
@@ -151,9 +114,10 @@ function TemplateCanvas({ onSelectText }) {
     canvas.renderAll();
 
     return () => {
+      isMounted = false;
       canvas.dispose();
     };
-  }, [layout]);
+  }, [layout, imgUrl]);
 
   // 3. Save canvas as PNG
   const saveCanvasImage = () => {
@@ -169,16 +133,41 @@ function TemplateCanvas({ onSelectText }) {
   };
 
   // 4. Save canvas as JSON
-  const saveLayoutJSON = () => {
-    const layout = fabricCanvas.current.toJSON();
-    const blob = new Blob([JSON.stringify(layout, null, 2)], {
-      type: "application/json",
-    });
+  // const saveLayoutJSON = () => {
+  //   const layout = fabricCanvas.current.toJSON();
+  //   const blob = new Blob([JSON.stringify(layout, null, 2)], {
+  //     type: "application/json",
+  //   });
 
-    const link = document.createElement("a");
-    link.download = "layout.json";
-    link.href = URL.createObjectURL(blob);
-    link.click();
+  //   const link = document.createElement("a");
+  //   link.download = "layout.json";
+  //   link.href = URL.createObjectURL(blob);
+  //   link.click();
+  // };
+
+  const handleImageUpload = () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const img = new Image();
+      img.onload = () => {
+        if (img.width === width && img.height === height) {
+          const reader = new FileReader();
+          reader.onload = (ev) => {
+            setImgUrl(ev.target.result); // Base64 URL
+          };
+          reader.readAsDataURL(file);
+        } else {
+          alert(`Image must be exactly ${width}x${height} pixels.`);
+        }
+      };
+      img.src = URL.createObjectURL(file);
+    };
+    input.click();
   };
 
   return (
@@ -187,10 +176,17 @@ function TemplateCanvas({ onSelectText }) {
         <canvas ref={canvasRef} style={{ border: "1px solid #ccc" }} />
       </div>
       <div className={styles.templateButton}>
-        <button onClick={saveCanvasImage} style={{ marginRight: "10px" }}>
+        {/* <button onClick={saveCanvasImage} style={{ marginRight: "10px" }}>
           Save as Image
-        </button>
-        <button onClick={saveLayoutJSON}>Save Layout JSON</button>
+        </button> */}
+        <Button btnName={"Save as Image"} handleClick={saveCanvasImage} />
+        <Button
+          btnName={"Change Image"}
+          handleClick={handleImageUpload}
+          btnStyles={{ marginLeft: "20px" }}
+        />
+        {/* <button onClick={handleImageUpload}>Change Image</button> */}
+        {/* <button onClick={saveLayoutJSON}>Save Layout JSON</button> */}
       </div>
     </div>
   );

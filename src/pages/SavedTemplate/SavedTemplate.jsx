@@ -1,20 +1,48 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useContextData } from "../../contextStore";
 import styles from "./SavedTemplate.module.scss";
+import { capitalizeFirstLetter } from "../utils";
+import { useNavigate } from "react-router-dom";
+import { APIService } from "../../services/service";
 
 const SavedTemplate = () => {
-  const { allLayouts } = useContextData();
-  const [openSection, setOpenSection] = useState(null); // which section is open (banner or carousel)
-  const [selectedItem, setSelectedItem] = useState(null); // the selected JSON object
+  //   const { allLayouts } = useContextData();
+  const navigate = useNavigate();
+  const [widgetType, setWidgetType] = useState(null);
+  const [deviceType, setDeviceType] = useState(null);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [allLayouts, setAllLayouts] = useState({});
 
-  const handleSectionClick = (section) => {
-    setOpenSection(openSection === section ? null : section);
+  useEffect(() => {
+    APIService.getAallLayouts()
+      .then((response) => {
+        setAllLayouts(response);
+      })
+      .catch((error) => {});
+  }, []);
+
+  const handleSectionClick = (widget) => {
+    setWidgetType(widgetType === widget ? null : widget);
+    setSelectedItem(null);
   };
 
-  const handleItemClick = (section, item) => {
-    const selectedObj = allLayouts[section][item];
+  const handleItemClick = (widget, device) => {
+    const selectedObj = allLayouts[widget][device];
     setSelectedItem(selectedObj);
-    console.log("Selected object:", selectedObj); // You can use it anywhere in your code
+    setWidgetType(widget);
+    setDeviceType(device);
+  };
+
+  const handleUseTemplate = () => {
+    navigate(
+      `/template-editor?widgetType=${widgetType}&deviceType=${deviceType}`,
+      {
+        state: {
+          text_styles: selectedItem,
+          pageType: "layout",
+        },
+      }
+    );
   };
 
   return (
@@ -28,9 +56,9 @@ const SavedTemplate = () => {
       <div className={styles.widgetListContainer}>
         <div style={{ width: "300px", fontFamily: "sans-serif" }}>
           {/* Loop through the main keys (banner, carousel) */}
-          {Object.keys(allLayouts).map((section) => (
+          {Object.keys(allLayouts).map((widget) => (
             <div
-              key={section}
+              key={widget}
               style={{ border: "1px solid #ccc", marginBottom: "5px" }}
             >
               <div
@@ -40,25 +68,25 @@ const SavedTemplate = () => {
                   color: "white",
                   cursor: "pointer",
                 }}
-                onClick={() => handleSectionClick(section)}
+                onClick={() => handleSectionClick(widget)}
               >
-                {section}
+                {capitalizeFirstLetter(widget)}
               </div>
 
               {/* Sub-items (mobile, desktop) */}
-              {openSection === section && (
+              {widgetType === widget && (
                 <div style={{ paddingLeft: "15px", background: "#f9f9f9" }}>
-                  {Object.keys(allLayouts[section]).map((item) => (
+                  {Object.keys(allLayouts[widget]).map((device) => (
                     <div
-                      key={item}
+                      key={device}
                       style={{
                         padding: "8px",
                         cursor: "pointer",
                         borderBottom: "1px solid #eee",
                       }}
-                      onClick={() => handleItemClick(section, item)}
+                      onClick={() => handleItemClick(widget, device)}
                     >
-                      {item}
+                      {capitalizeFirstLetter(device)}
                     </div>
                   ))}
                 </div>
@@ -76,6 +104,8 @@ const SavedTemplate = () => {
               }}
             >
               <pre>{JSON.stringify(selectedItem, null, 2)}</pre>
+
+              <button onClick={handleUseTemplate}>Use Template</button>
             </div>
           )}
         </div>

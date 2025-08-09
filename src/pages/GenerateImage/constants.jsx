@@ -41,8 +41,8 @@ export const DIMENSION_OPTIONS = {
       height: 974,
     },
     desktop: {
-      width: 1200,
-      height: 400,
+      width: 720,
+      height: 1072,
     },
   },
   card: {

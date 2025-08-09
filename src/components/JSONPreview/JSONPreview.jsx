@@ -5,7 +5,7 @@ const JSONPreview = ({ templateJSON = null }) => {
   return (
     <div className={styles.jsonPreview}>
       {templateJSON ? (
-        <div className={styles.contentBody}>JSON</div>
+        <div className={styles.contentBody}>{templateJSON}</div>
       ) : (
         <div className={styles.emptyBody}>
           <IoDocumentTextOutline className={styles.icon} />
