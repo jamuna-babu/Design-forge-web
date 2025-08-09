@@ -124,6 +124,7 @@ function TemplateCanvas({ onSelectText, layout, imageUrl, width, height }) {
     const dataURL = fabricCanvas.current.toDataURL({
       format: "png",
       quality: 1.0,
+      multiplier: 2,
     });
 
     const link = document.createElement("a");

@@ -123,7 +123,11 @@ const CreateTemplatePage = () => {
             <span className={styles.headerText}>Upload PDF Guidelines</span>
           </div>
           <div className={styles.pdfUploaderWrapper}>
-            <PDFUploader maxSize={10} onUpload={(file) => setFile(file)} />
+            <PDFUploader
+              maxSize={10}
+              onUpload={(file) => setFile(file)}
+              file={file}
+            />
           </div>
         </div>
         <div className={styles.jsonPreviewContainer}>

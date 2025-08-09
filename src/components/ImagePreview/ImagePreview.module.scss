@@ -23,4 +23,21 @@
     text-align: center;
     padding: 2rem;
   }
+  .buttonsContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    .downloadButton {
+      border: none;
+      border-radius: 0.5rem;
+      background: linear-gradient(
+        135deg,
+        rgb(121, 121, 217),
+        rgb(60, 198, 240)
+      );
+      text-align: center;
+      padding: 1rem 2rem;
+    }
+  }
 }

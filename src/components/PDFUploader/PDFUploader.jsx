@@ -3,24 +3,24 @@ import styles from "./PDFUploader.module.scss";
 import { GrUpload } from "react-icons/gr";
 
 const PDFUploader = (props) => {
-  const { maxSize = 10, onUpload } = props;
+  const { maxSize = 10, onUpload, file = null } = props;
   const fileInputRef = useRef(null);
   const handleDrop = (e) => {
     e.preventDefault();
-    const file = e.dataTransfer.files[0];
-    if (validateFile(file)) {
-      onUpload(file);
+    const fileValue = e.dataTransfer.files[0];
+    if (validateFile(fileValue)) {
+      onUpload(fileValue);
     }
   };
   const handleFileChange = (e) => {
-    const file = e.target.files?.[0];
-    if (file && validateFile(file)) {
-      onUpload(file);
+    const fileValue = e?.target?.files?.[0];
+    if (fileValue && validateFile(fileValue)) {
+      onUpload(fileValue);
     }
   };
-  const validateFile = (file) => {
-    const isPDF = file.type === "application/pdf";
-    const isUnderMaxSize = file.size <= maxSize * 1024 * 1024;
+  const validateFile = (fileValue) => {
+    const isPDF = fileValue.type === "application/pdf";
+    const isUnderMaxSize = fileValue.size <= maxSize * 1024 * 1024;
 
     if (!isPDF) {
       alert("Only PDF files are allowed.");
@@ -42,27 +42,33 @@ const PDFUploader = (props) => {
       onDragOver={(e) => e.preventDefault()}
       onDrop={handleDrop}
     >
-      <div className={styles.icon}>
-        <GrUpload />
-      </div>
-      <p className={styles.text}>Drop your PDF here</p>
-      <p className={styles.subtext}>Supports PDF files up to {maxSize}MB</p>
-      <button
-        className={styles.uploadButton}
-        onClick={(e) => {
-          e.stopPropagation();
-          fileInputRef.current?.click();
-        }}
-      >
-        Choose File
-      </button>
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept="application/pdf"
-        hidden
-        onChange={handleFileChange}
-      />
+      {file ? (
+        <div className={styles.fileContainer}>{file?.name}</div>
+      ) : (
+        <div className={styles.uploadContainer}>
+          <div className={styles.icon}>
+            <GrUpload />
+          </div>
+          <p className={styles.text}>Drop your PDF here</p>
+          <p className={styles.subtext}>Supports PDF files up to {maxSize}MB</p>
+          <button
+            className={styles.uploadButton}
+            onClick={(e) => {
+              e.stopPropagation();
+              fileInputRef.current?.click();
+            }}
+          >
+            Choose File
+          </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="application/pdf"
+            hidden
+            onChange={handleFileChange}
+          />{" "}
+        </div>
+      )}
     </div>
   );
 };

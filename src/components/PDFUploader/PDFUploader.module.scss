@@ -12,6 +12,17 @@
     background-color: #f9f9f9;
   }
 
+  .fileContainer {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    text-wrap: wrap;
+    color: rgb(115, 115, 115);
+  }
+
   .icon {
     font-size: 3rem;
     color: #6b7280; // gray-500

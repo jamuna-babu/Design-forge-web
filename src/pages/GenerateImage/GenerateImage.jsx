@@ -4,6 +4,7 @@ import TextEditor from "../../components/TextEditor/TextEditor";
 import { useState } from "react";
 import { Select } from "antd";
 import {
+  base64Mock,
   DEVICE_TYPE_OPTIONS,
   getDimensions,
   sampleImage,
