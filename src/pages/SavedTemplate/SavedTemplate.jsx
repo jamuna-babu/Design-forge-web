@@ -56,6 +56,9 @@ const SavedTemplate = () => {
       <div className={styles.widgetListContainer}>
         <div style={{ width: "300px", fontFamily: "sans-serif" }}>
           {/* Loop through the main keys (banner, carousel) */}
+          {Object.keys(allLayouts)?.length === 0 && (
+            <center>No Saved Templates</center>
+          )}
           {Object.keys(allLayouts).map((widget) => (
             <div
               key={widget}

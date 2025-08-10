@@ -1,8 +1,9 @@
 import styles from "./ImagePreview.module.scss";
 import { CiImageOn } from "react-icons/ci";
 import { downloadBase64Image } from "../../pages/GenerateImage/constants";
+import Button from "../Button/Button";
 
-const ImagePreview = ({ type, base64 }) => {
+const ImagePreview = ({ type, base64, isLayout, handleEditClick }) => {
   const onDownloadClick = () => {
     downloadBase64Image(base64);
   };
@@ -16,9 +17,14 @@ const ImagePreview = ({ type, base64 }) => {
         <img src={`data:image/${type};base64,${base64}`} alt="Generated" />
       </div>
       <div className={styles.buttonsContainer}>
-        <button className={styles.downloadButton} onClick={onDownloadClick}>
-          Download
-        </button>
+        <Button btnName={"Download"} handleClick={onDownloadClick} />
+        {isLayout && (
+          <Button
+            btnName={"Edit"}
+            btnStyles={{ marginLeft: "20px" }}
+            handleClick={handleEditClick}
+          />
+        )}
       </div>
     </div>
   );

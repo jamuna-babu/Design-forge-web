@@ -15,12 +15,17 @@ import { ContextActionHandlers } from "../../contextStore/actions";
 import ImagePreview from "../../components/ImagePreview/ImagePreview";
 import { APIService } from "../../services/service";
 import PageLoader from "../../components/Loader/PageLoader";
+import { useNavigate } from "react-router-dom";
 
 const GenerateImage = () => {
+  const navigate = useNavigate();
   const [inputText, setInputText] = useState("");
   const [widgetType, setWidgetType] = useState(null);
   const [deviceType, setDeviceType] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [isLayout, setIsLayout] = useState(false);
+  const [layout, setLayout] = useState(null);
+  const [alert, setAlert] = useState(false);
 
   const dispatch = useContextDispatch();
   const { base64Image } = useContextData();
@@ -35,9 +40,29 @@ const GenerateImage = () => {
     setDeviceType(value);
   };
 
+  const fetchLayout = () => {
+    APIService.getAallLayouts()
+      .then((response) => {
+        if (Object.keys(response)?.length > 0) {
+          const hasWidgetType = response.hasOwnProperty(widgetType);
+          console.log(widgetType, deviceType, "device");
+          const hasDeviceType =
+            hasWidgetType && response[widgetType].hasOwnProperty(deviceType);
+          if (hasWidgetType && hasDeviceType) {
+            setIsLayout(true);
+
+            setLayout(response[widgetType][deviceType]?.text_styles);
+          } else {
+            setIsLayout(false);
+          }
+        }
+      })
+      .catch((error) => {});
+  };
   const onGenerateClick = () => {
     setLoading(true);
     const { width, height } = getDimensions(widgetType, deviceType);
+
     APIService.generateImage({
       prompt: inputText,
       width,
@@ -53,11 +78,25 @@ const GenerateImage = () => {
             dimensions: { width, height },
           })
         );
+        fetchLayout();
         setLoading(false);
       })
       .catch((error) => {
         setLoading(false);
       });
+  };
+
+  const handleEditClick = () => {
+    navigate(
+      `/template-editor?widgetType=${widgetType}&deviceType=${deviceType}`,
+      {
+        state: {
+          text_styles: layout,
+
+          pageType: "image",
+        },
+      }
+    );
   };
 
   const generateDisabled = !widgetType || !inputText || !deviceType;
@@ -117,7 +156,14 @@ const GenerateImage = () => {
           <span>Generate Image</span>
         </button>
       </div>
-      {base64Image && <ImagePreview type="png" base64={base64Image} />}
+      {base64Image && (
+        <ImagePreview
+          type="png"
+          base64={base64Image}
+          isLayout={isLayout}
+          handleEditClick={handleEditClick}
+        />
+      )}
     </div>
   );
 };

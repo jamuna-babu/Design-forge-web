@@ -23,49 +23,6 @@ const CreateTemplatePage = () => {
   });
 
   const { alertMessge, alertType } = alert;
-  const JSON = {
-    Carousel: {
-      mobile: {
-        text_requirements: {
-          combined_max_lines: 4,
-          description_is_optional: true,
-          subtitle_is_optional: true,
-        },
-        text_styles: {
-          description: {
-            alignment: "Top&Left",
-            font_family: "Roboto",
-            font_size: 18,
-            font_style: "Regular",
-            max_lines: 3,
-            min_lines: 0,
-            positions: { x: 16, y: 513 },
-            text: "It should be located 300px above the title and 16px from left",
-          },
-          subtitle: {
-            alignment: "Bottom&Left",
-            font_family: "Roboto",
-            font_size: 16,
-            font_style: "Medium",
-            max_lines: 1,
-            min_lines: 0,
-            positions: { x: 16, y: 726 },
-            text: "1",
-          },
-          title: {
-            alignment: "Bottom&Left",
-            font_family: "Free Sans",
-            font_size: 44,
-            font_style: "Bold",
-            max_lines: 3,
-            min_lines: 1,
-            positions: { x: 16, y: 726 },
-            text: "LAXAIISHERE",
-          },
-        },
-      },
-    },
-  };
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {

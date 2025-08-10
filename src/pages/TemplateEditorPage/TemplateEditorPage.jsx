@@ -34,7 +34,7 @@ const TemplateEditorPage = () => {
       setLayout(location.state?.text_styles);
       setImgUrl(location?.state?.imageUrl);
       // temp
-      setLayout(allLayouts[widgetType][deviceType]);
+      // setLayout(allLayouts[widgetType][deviceType]);
     }
   }, []);
   return (
