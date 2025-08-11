@@ -3,10 +3,18 @@ import { CONTEXT_ACTIONS } from "./actions";
 export const reducer = (state, action) => {
   const { type, payload } = action;
   switch (type) {
-    case CONTEXT_ACTIONS.SET_TEMPLATE_JSON:
+    case CONTEXT_ACTIONS.SET_LOADER:
       return {
         ...state,
-        templateJSON: payload,
+        loader: payload,
+      };
+    case CONTEXT_ACTIONS.SET_ALERT_DETAILS:
+      return {
+        ...state,
+        alert: {
+          type: payload.type,
+          message: payload.message,
+        },
       };
     case CONTEXT_ACTIONS.SET_ALL_LAYOUTS:
       return {

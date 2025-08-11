@@ -1,5 +1,9 @@
 export const initialState = {
-  templateJSON: null,
+  loader: false,
+  alert: {
+    type: "",
+    message: "",
+  },
   base64Image: null,
   imageOptions: null,
   allLayouts: {},

@@ -5,7 +5,7 @@ export class APIService {
   static generateImage(payload) {
     return axios.post(API_URLS.generateImage, payload).then(({ data }) => data);
   }
-  static getAallLayouts(payload) {
+  static getAllLayouts(payload) {
     return axios.get(API_URLS.allLayouts).then(({ data }) => data);
   }
   static postSaveTemplate(payload) {

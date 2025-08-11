@@ -2,68 +2,56 @@ import { GrUpload } from "react-icons/gr";
 import PDFUploader from "../../components/PDFUploader/PDFUploader";
 import styles from "./CreateTemplatePage.module.scss";
 import { useEffect, useState } from "react";
-import { useContextData, useContextDispatch } from "../../contextStore";
-import { ContextActionHandlers } from "../../contextStore/actions";
-import { useNavigate } from "react-router-dom";
+import { contextActions } from "../../contextStore/actions";
 import { LuEye } from "react-icons/lu";
 import JSONPreview from "../../components/JSONPreview/JSONPreview";
 import { APIService } from "../../services/service";
-import PageLoader from "../../components/Loader/PageLoader";
 import Button from "../../components/Button/Button";
-import Alert from "../../components/Alert/Alert";
 
 const CreateTemplatePage = () => {
   const [file, setFile] = useState(null);
-  // const { templateJSON } = useContextData();
   const [templateJSON, setTemplateJSON] = useState(null);
-  const [isAlert, setIsAlert] = useState(false);
-  const [alert, setAlert] = useState({
-    alertType: "",
-    alertMessage: "",
-  });
-
-  const { alertMessge, alertType } = alert;
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!file) return;
     let formData = new FormData();
     formData.append("file", file);
-    setLoading(true);
+    contextActions.setLoader(true);
+    contextActions.setAlertDetails({
+      type: "success",
+      message: "Processing PDF, please wait...",
+    });
     APIService.postPdfLayout(formData)
       .then((response) => {
-        setLoading(false);
         setTemplateJSON(response);
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .catch(() =>
+        contextActions.setAlertDetails({
+          type: "error",
+          message: "Failed to process PDF. Please try again.",
+        })
+      )
+      .finally(() => contextActions.setLoader(false));
   }, [file]);
   const handleSaveTemplate = () => {
     APIService.postSaveTemplate(templateJSON)
-      .then((response) => {
-        setLoading(false);
-        setIsAlert(true);
-        setAlert({
-          alertType: "success",
-          alertMessage: "Template saved successfully. View in Saved template",
+      .then(() => {
+        contextActions.setAlertDetails({
+          type: "success",
+          message: "Template saved successfully. View in Saved template",
         });
       })
-      .catch((error) => {
-        setIsAlert(false);
-        setAlert({
-          alertType: "",
-          alertMessage: "",
-        });
-        setLoading(false);
-      });
+      .catch(() =>
+        contextActions.setAlertDetails({
+          type: "error",
+          message: "Failed to save template. Please try again.",
+        })
+      )
+      .finally(() => contextActions.setLoader(false));
   };
+
   return (
     <div className={styles.createTemplatePage}>
-      {loading && <PageLoader />}
-      {isAlert && (
-        <Alert type={alertType} message={alertMessge} timeout={4000} />
-      )}
       <div className={styles.titleSection}>
         <div className={styles.title}>Upload Brand Guidelines</div>
         <div className={styles.description}>

@@ -2,16 +2,14 @@ import { LuSparkles, LuWandSparkles } from "react-icons/lu";
 import styles from "./GenerateImage.module.scss";
 import TextEditor from "../../components/TextEditor/TextEditor";
 import { useState } from "react";
-import { Select } from "antd";
+import { message, Select } from "antd";
 import {
-  base64Mock,
   DEVICE_TYPE_OPTIONS,
   getDimensions,
-  sampleImage,
   WIDGET_TYPE_OPTIONS,
 } from "./constants";
-import { useContextData, useContextDispatch } from "../../contextStore";
-import { ContextActionHandlers } from "../../contextStore/actions";
+import { useContextData } from "../../contextStore";
+import { contextActions } from "../../contextStore/actions";
 import ImagePreview from "../../components/ImagePreview/ImagePreview";
 import { APIService } from "../../services/service";
 import PageLoader from "../../components/Loader/PageLoader";
@@ -22,12 +20,8 @@ const GenerateImage = () => {
   const [inputText, setInputText] = useState("");
   const [widgetType, setWidgetType] = useState(null);
   const [deviceType, setDeviceType] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [isLayout, setIsLayout] = useState(false);
   const [layout, setLayout] = useState(null);
-  const [alert, setAlert] = useState(false);
-
-  const dispatch = useContextDispatch();
   const { base64Image } = useContextData();
   const handleInputChange = (value) => setInputText(value);
 
@@ -41,28 +35,32 @@ const GenerateImage = () => {
   };
 
   const fetchLayout = () => {
-    APIService.getAallLayouts()
+    contextActions.setLoader(true);
+    APIService.getAllLayouts()
       .then((response) => {
         if (Object.keys(response)?.length > 0) {
           const hasWidgetType = response.hasOwnProperty(widgetType);
-          console.log(widgetType, deviceType, "device");
           const hasDeviceType =
             hasWidgetType && response[widgetType].hasOwnProperty(deviceType);
           if (hasWidgetType && hasDeviceType) {
             setIsLayout(true);
-
             setLayout(response[widgetType][deviceType]?.text_styles);
           } else {
             setIsLayout(false);
           }
         }
       })
-      .catch((error) => {});
+      .catch(() => {
+        contextActions.setAlertDetails({
+          type: "error",
+          message: "Failed to fetch layout. Please try again.",
+        });
+      })
+      .finally(() => contextActions.setLoader(false));
   };
   const onGenerateClick = () => {
-    setLoading(true);
     const { width, height } = getDimensions(widgetType, deviceType);
-
+    contextActions.setLoader(true);
     APIService.generateImage({
       prompt: inputText,
       width,
@@ -70,20 +68,19 @@ const GenerateImage = () => {
     })
       .then((response) => {
         const { image } = response;
-        dispatch(ContextActionHandlers.setBase64Image(image));
-        dispatch(
-          ContextActionHandlers.setImageOptions({
-            widgetType,
-            deviceType,
-            dimensions: { width, height },
-          })
-        );
+        contextActions.setBase64Image(image);
+        contextActions.setImageOptions({
+          widgetType,
+          deviceType,
+          dimensions: { width, height },
+        });
+        contextActions.setAlertDetails({
+          type: "success",
+          message: "Image generated successfully!",
+        });
         fetchLayout();
-        setLoading(false);
       })
-      .catch((error) => {
-        setLoading(false);
-      });
+      .finally(() => contextActions.setLoader(false));
   };
 
   const handleEditClick = () => {

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./Alert.module.scss"; // custom CSS
+import { contextActions } from "../../contextStore/actions";
 
 const ALERT_STYLES = {
   success: { bg: "#ecfdf5", border: "#6ee7b7", text: "#065f46", icon: "✅" },
@@ -15,18 +16,19 @@ export default function Alert({
   onClose,
 }) {
   const [visible, setVisible] = useState(true);
-
   useEffect(() => {
+    if (!message) return;
     if (timeout) {
       const timer = setTimeout(() => {
         setVisible(false);
+        contextActions.setAlertDetails({ type: "", message: "" });
         if (onClose) onClose();
       }, timeout);
       return () => clearTimeout(timer);
     }
-  }, [timeout, onClose]);
+  }, [timeout, onClose, message]);
 
-  if (!visible) return null;
+  if (!visible || !message || !type) return null;
 
   const style = ALERT_STYLES[type] || ALERT_STYLES.info;
 
