@@ -50,7 +50,7 @@ function TemplateCanvas({ onSelectText, layout, imageUrl, width, height }) {
         fontWeight:
           style.font_style?.toLowerCase() === "bold" ? "bold" : "normal",
         editable: true,
-        fill: "#00000",
+        fontColor: "#00000",
         width: 300,
       });
       canvas.add(textbox);
@@ -60,55 +60,50 @@ function TemplateCanvas({ onSelectText, layout, imageUrl, width, height }) {
       const obj = e.selected[0];
       if (obj?.type === "textbox") {
         const props = {
-          id: obj.customId,
           text: obj.text,
           fontSize: obj.fontSize,
           fontFamily: obj.fontFamily,
           fontWeight: obj.fontWeight,
-          fill: obj.fill,
+          fontColor: obj.fontColor,
         };
-        onSelectText && onSelectText(props);
+        onSelectText(props);
       }
     });
     canvas.on("selection:updated", (e) => {
       const obj = e.selected[0];
       if (obj?.type === "textbox") {
         const props = {
-          id: obj.customId,
           text: obj.text,
           fontSize: obj.fontSize,
           fontFamily: obj.fontFamily,
           fontWeight: obj.fontWeight,
-          fill: obj.fill,
+          fontColor: obj.fontColor,
         };
-        onSelectText && onSelectText(props);
+        onSelectText(props);
       }
     });
 
-    textboxes.forEach((textbox, index) => {
-      let prevHeight = textbox.height;
+    const spacing = 8;
 
+    textboxes.forEach((textbox) => {
       textbox.on("changed", () => {
         textbox.initDimensions();
-        const newHeight = textbox.height;
 
-        if (newHeight !== prevHeight) {
-          // const delta = newHeight - prevHeight;
+        const sortedBoxes = [...textboxes].sort((a, b) => a.top - b.top);
 
-          for (let i = index + 1; i < textboxes.length; i++) {
-            const nextBox = textboxes[i];
-            const prevBox = textboxes[i - 1];
-            const spacing = 8;
+        for (let i = 1; i < sortedBoxes.length; i++) {
+          const prevBox = sortedBoxes[i - 1];
+          const currentBox = sortedBoxes[i];
 
-            const expectedTop = prevBox.top + prevBox.height + spacing;
-            nextBox.top = expectedTop;
-            nextBox.setCoords();
+          const requiredTop = prevBox.top + prevBox.height + spacing;
+
+          if (currentBox.top !== requiredTop) {
+            currentBox.top = requiredTop;
+            currentBox.setCoords();
           }
-
-          prevHeight = newHeight;
-
-          fabricCanvas.current.renderAll();
         }
+
+        fabricCanvas.current.renderAll();
       });
     });
     canvas.renderAll();
@@ -119,7 +114,6 @@ function TemplateCanvas({ onSelectText, layout, imageUrl, width, height }) {
     };
   }, [layout, imgUrl]);
 
-  // 3. Save canvas as PNG
   const saveCanvasImage = () => {
     const dataURL = fabricCanvas.current.toDataURL({
       format: "png",
@@ -132,19 +126,6 @@ function TemplateCanvas({ onSelectText, layout, imageUrl, width, height }) {
     link.href = dataURL;
     link.click();
   };
-
-  // 4. Save canvas as JSON
-  // const saveLayoutJSON = () => {
-  //   const layout = fabricCanvas.current.toJSON();
-  //   const blob = new Blob([JSON.stringify(layout, null, 2)], {
-  //     type: "application/json",
-  //   });
-
-  //   const link = document.createElement("a");
-  //   link.download = "layout.json";
-  //   link.href = URL.createObjectURL(blob);
-  //   link.click();
-  // };
 
   const handleImageUpload = () => {
     const input = document.createElement("input");
@@ -177,17 +158,12 @@ function TemplateCanvas({ onSelectText, layout, imageUrl, width, height }) {
         <canvas ref={canvasRef} style={{ border: "1px solid #ccc" }} />
       </div>
       <div className={styles.templateButton}>
-        {/* <button onClick={saveCanvasImage} style={{ marginRight: "10px" }}>
-          Save as Image
-        </button> */}
         <Button btnName={"Save as Image"} handleClick={saveCanvasImage} />
         <Button
           btnName={"Change Image"}
           handleClick={handleImageUpload}
           btnStyles={{ marginLeft: "20px" }}
         />
-        {/* <button onClick={handleImageUpload}>Change Image</button> */}
-        {/* <button onClick={saveLayoutJSON}>Save Layout JSON</button> */}
       </div>
     </div>
   );

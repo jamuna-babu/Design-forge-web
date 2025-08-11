@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { useContextData } from "../../contextStore";
 import styles from "./SavedTemplate.module.scss";
 import { capitalizeFirstLetter } from "../utils";
 import { useNavigate } from "react-router-dom";
 import { APIService } from "../../services/service";
+import Button from "../../components/Button/Button";
+import { LuEye } from "react-icons/lu";
 
 const SavedTemplate = () => {
-  //   const { allLayouts } = useContextData();
   const navigate = useNavigate();
   const [widgetType, setWidgetType] = useState(null);
   const [deviceType, setDeviceType] = useState(null);
@@ -56,60 +56,66 @@ const SavedTemplate = () => {
       <div className={styles.widgetListContainer}>
         <div style={{ width: "300px", fontFamily: "sans-serif" }}>
           {/* Loop through the main keys (banner, carousel) */}
-          {Object.keys(allLayouts)?.length === 0 && (
+          {Object.keys(allLayouts)?.length === 0 ? (
             <center>No Saved Templates</center>
-          )}
-          {Object.keys(allLayouts).map((widget) => (
-            <div
-              key={widget}
-              style={{ border: "1px solid #ccc", marginBottom: "5px" }}
-            >
-              <div
-                style={{
-                  padding: "10px",
-                  background: "#7688F2",
-                  color: "white",
-                  cursor: "pointer",
-                }}
-                onClick={() => handleSectionClick(widget)}
-              >
-                {capitalizeFirstLetter(widget)}
-              </div>
+          ) : (
+            <>
+              {Object.keys(allLayouts).map((widget) => (
+                <div
+                  key={widget}
+                  style={{ border: "1px solid #ccc", marginBottom: "5px" }}
+                >
+                  <div
+                    style={{
+                      padding: "10px",
+                      background: "#7688F2",
+                      color: "white",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => handleSectionClick(widget)}
+                  >
+                    {capitalizeFirstLetter(widget)}
+                  </div>
 
-              {/* Sub-items (mobile, desktop) */}
-              {widgetType === widget && (
-                <div style={{ paddingLeft: "15px", background: "#f9f9f9" }}>
-                  {Object.keys(allLayouts[widget]).map((device) => (
-                    <div
-                      key={device}
-                      style={{
-                        padding: "8px",
-                        cursor: "pointer",
-                        borderBottom: "1px solid #eee",
-                      }}
-                      onClick={() => handleItemClick(widget, device)}
-                    >
-                      {capitalizeFirstLetter(device)}
+                  {/* Sub-items (mobile, desktop) */}
+                  {widgetType === widget && (
+                    <div style={{ paddingLeft: "15px", background: "#f9f9f9" }}>
+                      {Object.keys(allLayouts[widget]).map((device) => (
+                        <div
+                          key={device}
+                          style={{
+                            padding: "8px",
+                            cursor: "pointer",
+                            borderBottom: "1px solid #eee",
+                          }}
+                          onClick={() => handleItemClick(widget, device)}
+                        >
+                          {capitalizeFirstLetter(device)}
+                        </div>
+                      ))}
                     </div>
-                  ))}
+                  )}
+                </div>
+              ))}
+
+              {/* Display selected object */}
+              {selectedItem && (
+                <div className={styles.jsonPreviewContainer}>
+                  <div className={styles.header}>
+                    <LuEye />
+                    <span>JSON Preview</span>
+                  </div>
+                  <div className={styles.jsonContent}>
+                    <pre>{JSON.stringify(selectedItem, null, 2)}</pre>
+
+                    <Button
+                      btnName={"Use Template"}
+                      handleClick={handleUseTemplate}
+                    />
+                  </div>
                 </div>
               )}
-            </div>
-          ))}
-
-          {/* Display selected object */}
-          {selectedItem && (
-            <div
-              style={{
-                marginTop: "15px",
-                padding: "10px",
-                border: "1px solid #ccc",
-              }}
-            >
-              <pre>{JSON.stringify(selectedItem, null, 2)}</pre>
-
-              <button onClick={handleUseTemplate}>Use Template</button>
-            </div>
+            </>
           )}
         </div>
       </div>

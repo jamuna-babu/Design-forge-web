@@ -2,16 +2,7 @@ import styles from "../../pages/TemplateEditorPage/TemplateEditorPage.module.scs
 import { FaAlignCenter, FaAlignLeft, FaAlignRight } from "react-icons/fa";
 
 const TemplateStyleEditor = ({ selectedTextProps }) => {
-  const colorPalette = [
-    "#4facfe",
-    "#00f2fe",
-    "#00ff87",
-    "#ff758c",
-    "#ffb347",
-    "#fff",
-    "#000",
-    "#555",
-  ];
+  const colorPalette = ["#ffffff", "#000000"];
   return (
     <div className={styles.templateStyleEditor}>
       <div className={styles.editorHeader}>Edit Text</div>
@@ -92,7 +83,9 @@ const TemplateStyleEditor = ({ selectedTextProps }) => {
             style={{
               background: col,
               outline:
-                selectedTextProps?.color === col ? "3px solid #000" : "none",
+                selectedTextProps?.fontColor === col
+                  ? "3px solid #000"
+                  : "none",
             }}
           ></span>
         ))}

@@ -1,5 +1,5 @@
-const BASE_URL = "http://127.0.0.1:5000";
-// const BASE_URL = "http://107.97.59.169:5000";
+// const BASE_URL = "http://127.0.0.1:5000";
+const BASE_URL = "http://192.168.212.189:5000";
 
 export const API_URLS = {
   generateImage: `${BASE_URL}/sd-image-gen`, //generate image

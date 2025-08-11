@@ -23,4 +23,29 @@
       font-size: 1.5rem;
     }
   }
+  .jsonPreviewContainer {
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.08);
+    border-radius: 1rem;
+    .header {
+      border-top-left-radius: 1rem;
+      border-top-right-radius: 1rem;
+      padding: 1rem;
+      width: 100%;
+      display: flex;
+      gap: 1rem;
+      font-size: 1.5rem;
+      color: #fff;
+      background: linear-gradient(135deg, #ff6ec4, #ffb347);
+    }
+    .jsonContent {
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      justify-content: center;
+      align-items: center;
+    }
+  }
 }
