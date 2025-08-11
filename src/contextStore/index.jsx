@@ -19,7 +19,6 @@ export const useContextDispatch = () => {
 export const useContextStore = (Component) => (props) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   contextActions.dispatch = dispatch;
-  ContextActionHandlers.dispatch = dispatch;
   return (
     <Provider value={{ state, dispatch }}>
       <Component {...props} />

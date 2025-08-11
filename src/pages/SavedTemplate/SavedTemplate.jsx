@@ -14,7 +14,7 @@ const SavedTemplate = () => {
   const [allLayouts, setAllLayouts] = useState({});
 
   useEffect(() => {
-    APIService.getAallLayouts()
+    APIService.getAllLayouts()
       .then((response) => {
         setAllLayouts(response);
       })
