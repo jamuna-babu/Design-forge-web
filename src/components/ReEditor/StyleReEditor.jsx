@@ -1,8 +1,8 @@
-import styles from "../../pages/TemplateEditorPage/TemplateEditorPage.module.scss";
+import styles from "../../pages/ReEditorPage/ReEditorPage.module.scss";
 import { FaAlignCenter, FaAlignLeft, FaAlignRight } from "react-icons/fa";
 
-const TemplateStyleEditor = ({ selectedTextProps }) => {
-  const colorPalette = ["#ffffff", "#000000"];
+const StyleReEditor = ({ selectedTextProps }) => {
+  const colorPalette = ["#fff", "#000"];
   return (
     <div className={styles.templateStyleEditor}>
       <div className={styles.editorHeader}>Edit Text</div>
@@ -22,7 +22,11 @@ const TemplateStyleEditor = ({ selectedTextProps }) => {
       {/* Font Family Dropdown */}
       <label className={styles.label}>Font Family</label>
       <select
-        value={selectedTextProps?.fontFamily || ""}
+        value={
+          selectedTextProps?.fontFamily != "Roboto"
+            ? "FreeSans"
+            : "Roboto" || ""
+        }
         disabled
         className={styles.select}
       >
@@ -82,9 +86,7 @@ const TemplateStyleEditor = ({ selectedTextProps }) => {
             style={{
               background: col,
               outline:
-                selectedTextProps?.fontColor === col
-                  ? "3px solid #000"
-                  : "none",
+                selectedTextProps?.color === col ? "3px solid #000" : "none",
             }}
           ></span>
         ))}
@@ -92,4 +94,4 @@ const TemplateStyleEditor = ({ selectedTextProps }) => {
     </div>
   );
 };
-export default TemplateStyleEditor;
+export default StyleReEditor;

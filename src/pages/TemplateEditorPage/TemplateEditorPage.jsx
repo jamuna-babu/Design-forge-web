@@ -28,7 +28,9 @@ const TemplateEditorPage = () => {
   useState(() => {
     if (page === "layout") {
       setLayout(location.state?.text_styles);
+      console.log(widgetType, deviceType, "hereeee");
       const image = WIDGET_IMGAES[widgetType][deviceType];
+      console.log(widgetType, deviceType);
       setImgUrl(image);
     } else if (page === "image") {
       setLayout(location.state?.text_styles);

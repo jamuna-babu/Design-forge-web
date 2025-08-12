@@ -37,8 +37,8 @@ export const DIMENSION_OPTIONS = {
   },
   carousel: {
     mobile: {
-      width: 656,
-      height: 974,
+      width: 360,
+      height: 536,
     },
     desktop: {
       width: 720,
@@ -58,7 +58,12 @@ export const DIMENSION_OPTIONS = {
 };
 
 export const getDimensions = (widgetType, deviceType) => {
-  return DIMENSION_OPTIONS?.[widgetType]?.[deviceType] || null;
+  return (
+    DIMENSION_OPTIONS?.[widgetType]?.[deviceType] || {
+      width: 720,
+      height: 1072,
+    }
+  );
 };
 
 export const downloadBase64Image = (base64, filename = "image.png") => {

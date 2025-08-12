@@ -12,7 +12,7 @@ const ALERT_STYLES = {
 export default function Alert({
   type = "info",
   message,
-  timeout = 3000,
+  timeout = 8000,
   onClose,
 }) {
   const [visible, setVisible] = useState(true);

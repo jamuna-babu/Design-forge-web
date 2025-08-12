@@ -4,6 +4,7 @@ export const CONTEXT_ACTIONS = {
   SET_BASE64_IMAGE: "SET_BASE64_IMAGE",
   SET_IMAGE_OPTIONS: "SET_IMAGE_OPTIONS",
   SET_ALL_LAYOUTS: "SET_ALL_LAYOUTS",
+  SET_REEDIT_JSON: "SET_REEDIT_JSON",
 };
 
 export class ContextActionHandlers {
@@ -15,10 +16,17 @@ export class ContextActionHandlers {
     });
   }
   setAlertDetails(payload) {
+    console.log("payloaddddd");
     this.dispatch({
       type: CONTEXT_ACTIONS.SET_ALERT_DETAILS,
       payload,
     });
+  }
+  static setReEditorJSON(payload) {
+    return {
+      type: CONTEXT_ACTIONS.SET_TEMPLATE_JSON,
+      payload,
+    };
   }
   static setAllLayouts(payload) {
     this.dispatch({

@@ -16,4 +16,9 @@ export class APIService {
   static postPdfLayout(payload) {
     return axios.post(API_URLS.pdfLayout, payload, {}).then(({ data }) => data);
   }
+  static postEditImage(payload) {
+    return axios
+      .post(API_URLS.reeditImage, payload, {})
+      .then(({ data }) => data);
+  }
 }

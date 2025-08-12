@@ -1,0 +1,81 @@
+.UploadImagePage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5%;
+  gap: 3rem;
+  .titleSection {
+    width: 100%;
+    border-radius: 1rem;
+    color: white;
+    background: linear-gradient(135deg, #764ba2, #667eea);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+    .title {
+      font-size: 2.5rem;
+      font-weight: 600;
+    }
+    .description {
+      font-size: 1.5rem;
+    }
+  }
+
+  .contentSection {
+    width: 100%;
+    gap: 2rem;
+    grid-template-columns: 50% 50%;
+    .uploadPdfContainer {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      border-radius: 1rem;
+      box-shadow: 0 6px 30px rgba(0, 0, 0, 0.08);
+      .header {
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
+        padding: 1rem;
+        width: 100%;
+        display: flex;
+        gap: 1rem;
+        font-size: 1.5rem;
+        color: #fff;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+      }
+      .pdfUploaderWrapper {
+        width: 100%;
+        padding: 2rem;
+      }
+    }
+
+    .jsonPreviewContainer {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      box-shadow: 0 6px 30px rgba(0, 0, 0, 0.08);
+      border-radius: 1rem;
+      .header {
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
+        padding: 1rem;
+        width: 100%;
+        display: flex;
+        gap: 1rem;
+        font-size: 1.5rem;
+        color: #fff;
+        background: linear-gradient(135deg, #ff6ec4, #ffb347);
+      }
+      .jsonPreviewContent {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 0px 0px 20px 0px;
+      }
+    }
+  }
+}

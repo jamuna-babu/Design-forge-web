@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { fabric } from "fabric";
 import styles from "../../pages/TemplateEditorPage/TemplateEditorPage.module.scss";
 import Button from "../Button/Button";
+import { getNumericWeight } from "../../pages/utils";
+import "/home/d2c-jamuna-babu/Documents/DesignForge/frontend/Design-forge-web/src/fonts.css";
 
 function TemplateCanvas({ onSelectText, layout, imageUrl, width, height }) {
   const canvasRef = useRef(null);
@@ -15,8 +17,8 @@ function TemplateCanvas({ onSelectText, layout, imageUrl, width, height }) {
     let isMounted = true;
 
     const canvas = new fabric.Canvas(canvasRef.current, {
-      width: 800,
-      height: 1000,
+      width: layout?.image_width,
+      height: layout?.image_height,
       selection: true,
     });
 
@@ -47,8 +49,7 @@ function TemplateCanvas({ onSelectText, layout, imageUrl, width, height }) {
         top: style.positions?.y || 0,
         fontSize: style.font_size || 20,
         fontFamily: style.font_family || "Arial",
-        fontWeight:
-          style.font_style?.toLowerCase() === "bold" ? "bold" : "normal",
+        fontWeight: getNumericWeight(style.font_style),
         editable: true,
         fontColor: "#00000",
         width: 300,
@@ -71,6 +72,7 @@ function TemplateCanvas({ onSelectText, layout, imageUrl, width, height }) {
     });
     canvas.on("selection:updated", (e) => {
       const obj = e.selected[0];
+      console.log(obj, "while updating");
       if (obj?.type === "textbox") {
         const props = {
           text: obj.text,
@@ -114,13 +116,51 @@ function TemplateCanvas({ onSelectText, layout, imageUrl, width, height }) {
     };
   }, [layout, imgUrl]);
 
+  // const saveCanvasImage = () => {
+  //   const dataURL = fabricCanvas.current.toDataURL({
+  //     format: "png",
+  //     quality: 3.0,
+  //     multiplier: 1,
+  //   });
+
+  //   const link = document.createElement("a");
+  //   link.download = "canvas.png";
+  //   link.href = dataURL;
+  //   link.click();
+  // };
+
   const saveCanvasImage = () => {
-    const dataURL = fabricCanvas.current.toDataURL({
+    const layoutWidth = layout?.image_width;
+    const layoutHeight = layout?.image_height;
+
+    if (!layoutWidth || !layoutHeight) {
+      alert("Layout dimensions are missing.");
+      return;
+    }
+
+    const currentCanvas = fabricCanvas.current;
+
+    // Update the canvas with any changes made (text edits)
+    currentCanvas.renderAll(); // Ensure all changes are reflected
+
+    const canvasWidth = currentCanvas.getWidth();
+    const canvasHeight = currentCanvas.getHeight();
+
+    // Calculate multipliers for width and height to match layout dimensions
+    const widthMultiplier = layoutWidth / canvasWidth;
+    const heightMultiplier = layoutHeight / canvasHeight;
+
+    // Use the smaller multiplier to preserve aspect ratio and avoid distortion
+    const multiplier = Math.min(widthMultiplier, heightMultiplier);
+
+    // Get the data URL for the canvas with quality setting and multiplier
+    const dataURL = currentCanvas.toDataURL({
       format: "png",
-      quality: 1.0,
-      multiplier: 2,
+      quality: 3.0,
+      multiplier: 1, // Use the multiplier to scale the image
     });
 
+    // Create a download link and trigger download
     const link = document.createElement("a");
     link.download = "canvas.png";
     link.href = dataURL;

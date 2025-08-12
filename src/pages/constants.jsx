@@ -1,6 +1,7 @@
 export const BANNER = "banner";
 export const CAROUSEL = "carousel";
 export const CARD = "card";
+export const GREETING = "greeting";
 
 export const WIDGET_IMGAES = {
   [BANNER]: {
@@ -8,11 +9,11 @@ export const WIDGET_IMGAES = {
     desktop: "",
   },
   [CAROUSEL]: {
-    mobile: "",
-    desktop: "",
+    mobile: "Images/carousel-mobile.png",
+    desktop: "Images/carousel-desktop.png",
   },
-  [CARD]: {
-    mobile: "",
+  [GREETING]: {
+    mobile: "Images/greeting-mobile.jpg",
     desktop: "",
   },
 };

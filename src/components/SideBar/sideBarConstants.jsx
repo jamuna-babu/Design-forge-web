@@ -34,4 +34,11 @@ export const SIDE_BAR_OPTIONS = [
     label: "Saved Templates",
     icon: <FaRegFolderOpen />,
   },
+
+  {
+    value: "reedit-image",
+    route: "/re-edit-image",
+    label: "Re - edit Images",
+    icon: <IoDocumentTextOutline />,
+  },
 ];

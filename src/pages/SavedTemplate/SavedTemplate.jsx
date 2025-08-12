@@ -112,7 +112,9 @@ const SavedTemplate = () => {
                     <span>JSON Preview</span>
                   </div>
                   <div className={styles.jsonContent}>
-                    <pre>{JSON.stringify(selectedItem, null, 2)}</pre>
+                    <pre style={{ fontSize: "13px" }}>
+                      {JSON.stringify(selectedItem, null, 2)}
+                    </pre>
 
                     <Button
                       btnName={"Use Template"}

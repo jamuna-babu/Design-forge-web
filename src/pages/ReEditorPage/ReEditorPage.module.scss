@@ -1,0 +1,182 @@
+.templateEditorPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5%;
+  gap: 3rem;
+  .titleSection {
+    width: 100%;
+    border-radius: 1rem;
+    color: white;
+    background: linear-gradient(135deg, #764ba2, #667eea);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+    .title {
+      font-size: 2.5rem;
+      font-weight: 600;
+    }
+    .description {
+      font-size: 1.5rem;
+    }
+  }
+  .templateCanvasSection {
+    display: flex;
+    flex-direction: row; /* ✅ side-by-side layout */
+    width: 100%;
+    gap: 20px;
+    align-items: flex-start;
+    .templateCanvas {
+      flex: 3; /* ✅ takes more space on left */
+      background: #fff;
+      border-radius: 0.5rem;
+      // padding: 1rem;
+      // overflow-y: auto; /* ✅ scroll inside canvas area */
+      height: 600px; /* set desired height */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      .templateCanvasTitle {
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        padding: 12px 20px;
+        color: white;
+        font-family: "Free Sans", sans-serif;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 1.5rem;
+      }
+
+      .imageContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .templateButton {
+          padding: 15px 20px;
+
+          // button {
+          //   display: inline-block;
+          //   padding: 8px 14px;
+          //   background-color: #fff;
+          //   border: 1px solid #ccc;
+          //   border-radius: 8px;
+          //   font-family: "Free Sans", Arial, sans-serif;
+          //   font-size: 12px;
+          //   font-weight: bold;
+          //   color: #000;
+          //   cursor: pointer;
+          //   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+          // }
+        }
+      }
+
+      .scrollContainer {
+        text-align: center;
+        padding: 20px;
+        height: 500px;
+        overflow: auto;
+        scrollbar-width: none; /* Firefox: hide by default */
+      }
+
+      .scrollContainer-container:hover {
+        scrollbar-width: thin; /* Firefox: thin on hover */
+      }
+
+      .scrollContainer-container::-webkit-scrollbar {
+        width: 6px; /* thin scrollbar */
+      }
+
+      .scrollContainer-container::-webkit-scrollbar-track {
+        background: transparent; /* no background */
+      }
+
+      .scrollContainer-container::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.3); /* thumb color */
+        border-radius: 3px;
+      }
+
+      .scrollContainer-container:not(:hover)::-webkit-scrollbar-thumb {
+        background: transparent; /* hide when not hovering */
+      }
+
+      .scrollContainer-container:not(:hover)::-webkit-scrollbar {
+        width: 0px; /* hide scrollbar completely */
+      }
+    }
+
+    .templateStyleEditor {
+      flex: 1;
+      background: #fff;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      .editorHeader {
+        background: linear-gradient(135deg, #38ef7d, #11998e);
+        color: white;
+        padding: 0.75rem;
+        font-weight: bold;
+        border-radius: 0.25rem;
+      }
+
+      .label {
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-top: 0.5rem;
+      }
+
+      .input,
+      .select {
+        padding: 0.5rem;
+        border-radius: 0.25rem;
+        border: 1px solid #ccc;
+        font-size: 0.9rem;
+        width: 100%;
+      }
+
+      .charCount {
+        font-size: 0.8rem;
+        color: #777;
+        text-align: right;
+      }
+
+      .slider {
+        width: 100%;
+      }
+
+      .alignmentButtons {
+        display: flex;
+        gap: 0.5rem;
+        button {
+          flex: 1;
+          padding: 0.5rem;
+          background: #f5f5f5;
+          border: 1px solid #ccc;
+          cursor: pointer;
+          :active {
+            background: #7688f2;
+          }
+        }
+      }
+
+      .colorPalette {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.5rem;
+        span {
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          cursor: pointer;
+          border: 1px solid #ccc;
+        }
+      }
+    }
+  }
+}
