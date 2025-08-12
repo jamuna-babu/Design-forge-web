@@ -1,9 +1,10 @@
 import { useRef } from "react";
 import styles from "./PDFUploader.module.scss";
 import { GrUpload } from "react-icons/gr";
+import { IoTrashOutline } from "react-icons/io5";
 
 const PDFUploader = (props) => {
-  const { maxSize = 10, onUpload, file = null } = props;
+  const { maxSize = 10, onUpload, file = null, onRemove } = props;
   const fileInputRef = useRef(null);
   const handleDrop = (e) => {
     e.preventDefault();
@@ -43,7 +44,12 @@ const PDFUploader = (props) => {
       onDrop={handleDrop}
     >
       {file ? (
-        <div className={styles.fileContainer}>{file?.name}</div>
+        <div className={styles.fileContainer}>
+          {file?.name}
+          <div className={styles.removeIcon} onClick={onRemove}>
+            <IoTrashOutline />
+          </div>
+        </div>
       ) : (
         <div className={styles.uploadContainer}>
           <div className={styles.icon}>
@@ -66,7 +72,7 @@ const PDFUploader = (props) => {
             accept="application/pdf"
             hidden
             onChange={handleFileChange}
-          />{" "}
+          />
         </div>
       )}
     </div>

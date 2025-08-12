@@ -7,10 +7,12 @@ import { LuEye } from "react-icons/lu";
 import JSONPreview from "../../components/JSONPreview/JSONPreview";
 import { APIService } from "../../services/service";
 import Button from "../../components/Button/Button";
+import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
 
 const CreateTemplatePage = () => {
   const [file, setFile] = useState(null);
   const [templateJSON, setTemplateJSON] = useState(null);
+  const [confirmationModalOpen, setConfirmationModalOpen] = useState(false);
 
   useEffect(() => {
     if (!file) return;
@@ -50,6 +52,16 @@ const CreateTemplatePage = () => {
       .finally(() => contextActions.setLoader(false));
   };
 
+  const onRemove = () => {
+    setFile(null);
+    setTemplateJSON(null);
+    contextActions.setAlertDetails({
+      type: "info",
+      message: "PDF file removed successfully.",
+    });
+    setConfirmationModalOpen(false);
+  };
+
   return (
     <div className={styles.createTemplatePage}>
       <div className={styles.titleSection}>
@@ -72,6 +84,7 @@ const CreateTemplatePage = () => {
               maxSize={10}
               onUpload={(file) => setFile(file)}
               file={file}
+              onRemove={() => setConfirmationModalOpen(true)}
             />
           </div>
         </div>
@@ -92,6 +105,14 @@ const CreateTemplatePage = () => {
           </div>
         </div>
       </div>
+      <ConfirmationModal
+        style={{ top: "50%" }}
+        open={confirmationModalOpen}
+        title="Confirmation Modal"
+        content="Are you sure you want to remove the PDF?"
+        onOk={onRemove}
+        onCancel={() => setConfirmationModalOpen(false)}
+      />
     </div>
   );
 };

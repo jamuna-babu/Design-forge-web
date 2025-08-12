@@ -12,7 +12,6 @@ import { useContextData } from "../../contextStore";
 import { contextActions } from "../../contextStore/actions";
 import ImagePreview from "../../components/ImagePreview/ImagePreview";
 import { APIService } from "../../services/service";
-import PageLoader from "../../components/Loader/PageLoader";
 import { useNavigate } from "react-router-dom";
 
 const GenerateImage = () => {
@@ -100,7 +99,6 @@ const GenerateImage = () => {
 
   return (
     <div className={styles.generateImagePage}>
-      {loading && <PageLoader />}
       <div className={styles.titleContainer}>
         <span className={styles.titleIcon}>
           <LuSparkles />
